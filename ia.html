@@ -388,8 +388,8 @@
         }
 
         async function chamarIA(pergunta) {
-            const chave = '' //minha api
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${chave}`
+            const chave = '' //minha api(função desativada no momento)
+            const url = `` //função desativada no momento
             
             const resposta = await fetch(url, {
                 method: 'POST',
@@ -410,7 +410,6 @@
 
             const data = await resposta.json()
 
-            // Validação extra para evitar quebras caso a resposta venha vazia ou bloqueada
          if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
             return data.candidates[0].content.parts[0].text;
         } else {
