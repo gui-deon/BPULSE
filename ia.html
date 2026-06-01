@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA BPULSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #060810;
+      --bg2: #0c1020;
+      --bg3: #111827;
+      --blue: #2563eb;
+      --blue-light: #3b82f6;
+      --blue-glow: #60a5fa;
+      --blue-dim: #1e40af;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: rgba(59,130,246,0.18);
+      --border-bright: rgba(59,130,246,0.45);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    #tela-auth {
+        min-height: 100vh;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .auth-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .logo {
+        font-family: 'Syne', sans-serif;
+        font-weight: 800;
+        font-size: 1.6rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        color: var(--text);
+    }
+
+    .logo span { color: var(--blue-light);}
+
+    .abas {
+        display: flex;
+        gap: 0.5rem;
+        margin: 1.5rem;
+    }
+
+    .abas button {
+        flex: 1;
+        padding: 0.6rem;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: transparent;
+        color: var(--text-muted);
+        font-family: 'DM Sans', sams-serif;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .abas button.ativa {
+        background: var(--blue);
+        color: #fff;
+        border-color: var(--blue);
+    }
+
+    #form-login, #form-singup {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    #form-login p, #for-singup p {
+        font-size: 0.85;
+        color: var(--text-muted);
+        margin-top: 0.4rem;
+    }
+
+    #form-login input, #form-singup input {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.95rem;
+        transition: border-color 0.2s;
+    }
+
+    #form-login input:focus, #form-singup input:focus {
+        outline: none;
+        border-color: var(--blue-light);
+    }
+
+    #form-login button, #form-singup button {
+        margin-top: 1rem;
+        padding: 0.85rem;
+        background: var(--blue);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    #form-login button:hover, #form-singup button:hover {
+        background: var(--blue-light);
+    }
+    
+    #tela-ia {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .chat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .chat-header button {
+        background: transparent;
+        border: 1px solid var(--border-bright);
+        color: var(--text-muted);
+        padding: 0.4rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    .chat-header button:hover {
+        color: var(--text);
+        border-color: var(--text);
+    }
+
+    .chat-mensagens {
+        flex: 1;
+        overflow-y: auto;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .chat-input {
+        display: flex;
+        gap: 0.8rem;
+        padding: 1rem 2rem;
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+    }
+
+    .chat-input input {
+        flex: 1;
+        padding: 0.8rem 1rem;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.95rem;
+        transition: border-color 0.2s;
+    }
+    .chat-input input:focus {
+        outline: none;
+        border-color: var(--blue-light);
+    }
+    .chat-input button {
+        padding: 0.85rem 1.5rem;
+        background: var(--blue);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .chat-input button:hover { background: var(--blue-light); }
+
+    .mensagem-usuario {
+        align-self: flex-end;
+        background: var(--blue);
+        color: #fff;
+        padding: 0.7rem 1.2rem;
+        border-radius: 12px 12px 02px 12px;
+        max-width: 75%;
+    }
+
+    .mensagem-ia {
+        align-self: flex-start;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 0.7rem 1.2rem;
+        border-radius: 12px 12px 12px 2px;
+        max-width: 75%;
+    }
+    </style>
+</head>
+<body>
+    <div id="tela-auth">
+        <div class="auth-card">
+            <div class="logo">BP<span>ULSE</span></div>
+            
+            <div class="abas">
+                <button onclick="mostrarLogin()">Entrar</button>
+                <button onclick="mostrarSignup()">Criar conta</button>
+            </div>
+
+            <div id="form-login">
+                <p class="gmail">Digite seu Email</p>
+                <input type="email" id="login-email">
+                <p class="senha">Digite sua senha</p>
+                <input type="password" id="login-senha">
+                <button onclick="fazerLogin()">Entrar</button>
+            </div>
+
+            <div id="form-singup" style="display: none;">
+                <p class="nome-usuario">Digite seu nome de usuario</p>
+                <input type="text" id="nome-usuario">
+                <p class="gmail">Digite seu Email</p>
+                <input type="email" id="criar-email">
+                <p class="senha">Crie uma senha</p>
+                <input type="password" id="criar-senha">
+                <button onclick="fazerSingup()">Criar conta</button>
+            </div>
+        </div>   
+    </div>
+    
+    <div id="tela-ia" style="display: none;">
+        <div class="chat-header">
+            <div class="logo">BP<span>ULSE</span></div>
+            <button onclick="fazerLogout()">Sair</button>
+        </div>
+
+        <div class="chat-mensagens" id="chat-mensagens"></div>
+
+        <div class="chat-input">
+            <input type="text" id="input-mensagem" placeholder="Pergunte sobre ações ou FIIs...">
+            <button onclick="enviarMensagem()">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        async function sha256(texto) {
+            const encoded = new TextEncoder().encode(texto);
+            const hash = await crypto.subtle.digest('SHA-256', encoded);
+            return Array.from(new Uint8Array(hash))
+            .map(b => b.toString(16).padStart(2, '0'))
+            .join('');
+        }
+
+        function mostrarLogin() {
+            document.getElementById('form-login').style.display = 'flex';
+            document.getElementById('form-singup').style.display = 'none';
+            document.querySelectorAll('.abas button')[0].classList.add('ativa');
+            document.querySelectorAll('.abas button')[1].classList.remove('ativa');
+        }
+
+        function mostrarSignup() {
+            document.getElementById('form-login').style.display = 'none';
+            document.getElementById('form-singup').style.display = 'flex';
+            document.querySelectorAll('.abas button')[0].classList.remove('ativa');
+            document.querySelectorAll('.abas button')[1].classList.add('ativa');
+        }
+
+        async function fazerSingup() {
+            const nome = document.getElementById('nome-usuario').value.trim();
+            const email = document.getElementById('criar-email').value.trim();
+            const senha = document.getElementById('criar-senha').value;
+
+            if (!nome || !email || !senha) {
+                alert('Preencha todos os campos para criar sua conta.');
+                return;
+            }
+
+            if (localStorage.getItem('usuario' +email)) {
+                alert('Este email já está registrado. Tente outro ou faça login.');
+                return;
+            }
+
+            const hashfinal = await sha256(await sha256(senha + email));
+        
+            localStorage.setItem('usuario' + email, JSON.stringify({ nome, email, senha: hashfinal }));
+            alert('Conta criada com sucesso! Agora você pode fazer login.');
+            mostrarLogin();
+        }
+
+        async function fazerLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const senha = document.getElementById('login-senha').value;
+
+            if (!email || !senha) {
+                alert('Preencha todos os campos para fazer login.');
+                return;
+            }
+        
+
+        const usuario = localStorage.getItem('usuario' + email);
+
+        if (!usuario) {
+            alert('Email não encontrado. Verifique o email ou crie uma conta.');
+            return;
+        }
+
+        const hashfinal = await sha256(await sha256(senha + email));
+        const dados = JSON.parse(usuario);
+
+        if (hashfinal !== dados.senha) {
+            alert('Senha incorreta. Tente novamente.');
+            return;
+        }
+
+        document.getElementById('tela-auth').style.display = 'none';
+        document.getElementById('tela-ia').style.display = 'flex';
+
+    }
+        
+
+        function adicionarMensagem(texto, tipo) {
+            const div = document.createElement('div')
+            div.classList.add(tipo === 'usuario' ? 'mensagem-usuario' : 'mensagem-ia')
+            div.textContent = texto
+            document.getElementById('chat-mensagens').appendChild(div)
+            document.getElementById('chat-mensagens').scrollTop = 9999999
+        }
+        
+        async function enviarMensagem() {
+            const input = document.getElementById('input-mensagem')
+            const botao = document.querySelector('.chat-input button')
+            const texto = input.value.trim()
+            if (!texto) return
+
+            input.value = ''
+            input.disabled = true
+            botao.disabled = true
+            botao.textContent = 'Analisando...'
+
+
+            adicionarMensagem(texto, 'usuario')
+            adicionarMensagem('Analisando...', 'ia')
+
+            const mensagens = document.getElementById('chat-mensagens');
+
+            try {
+                const resposta = await chamarIA(texto);
+                //Atualiza o "Analisando..." com a resposta real
+                mensagens.lastChild.textContent = resposta;
+            } catch (erro) {
+                console.error("Erro ao obter resposta da IA", erro);
+                mensagens.lastChild.textContent = "Desculpe, ocorreu um erro ao processar sua mensagem. tente novamente.";
+            }
+
+            
+            input.disabled = false;
+            botao.disabled = false;
+            botao.textContent = 'Enviar';
+            input.focus();
+        }
+
+        async function chamarIA(pergunta) {
+            const chave = '' //minha api
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${chave}`
+            
+            const resposta = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    systemInstruction: {
+                        parts: [{ text: 'Você é o BPULSE, uma IA especialista no mercado financeiro brasileiro. Responda sempre em português, de forma clara e objetiva. Foque em ações da B3 e FIIs. Nunca garanta lucros — sempre alerte sobre riscos.' }]
+                    },
+                    contents: [{
+                        parts: [{ text: pergunta }]
+                    }]
+                })
+            });
+
+            if (!resposta.ok) {
+                throw new Error(`Erro na requisição: ${resposta.status} - ${resposta.statusText}`);
+            }
+
+            const data = await resposta.json()
+
+            // Validação extra para evitar quebras caso a resposta venha vazia ou bloqueada
+         if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+            return data.candidates[0].content.parts[0].text;
+        } else {
+            throw new Error("A resposta da IA veio em um formato inesperado ou foi bloqueada.");
+        }
+    }
+        function fazerLogout() {
+            document.getElementById('tela-ia').style.display = 'none'
+            document.getElementById('tela-auth').style.display = 'flex'
+            mostrarLogin()
+        }
+
+        document.getElementById('input-mensagem').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') enviarMensagem()
+        })
+
+        mostrarLogin()
+    </script>
+</body>
+</html>
